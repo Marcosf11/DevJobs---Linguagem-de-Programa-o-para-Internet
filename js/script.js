@@ -16,42 +16,6 @@ const vagas = [
         tecnologias: ['Node.js', 'PostgreSQL'],
         salario: 'R$ 7.000 – R$ 10.000',
         local: 'São Paulo, SP'
-    },
-    {
-        id: 3,
-        titulo: 'Analista de Suporte de TI',
-        empresa: 'Support++',
-        tipo: 'presencial',
-        tecnologias: ['Windows', 'Redes', 'Hardware'],
-        salario: 'R$ 2.800 – R$ 3.000',
-        local: 'São Paulo, MG'
-    },
-    {
-        id: 4,
-        titulo: 'Desenvolvedor Java',
-        empresa: 'CodeSolutions',
-        tipo: 'hibrido',
-        tecnologias: ['Java', 'Spring Boot', 'MySQL'],
-        salario: 'R$ 5.500 – R$ 8.000',
-        local: 'Belo Horizonte, MG'
-    },
-    {
-        id: 5,
-        titulo: 'Desenvolvedor Mobile Android',
-        empresa: 'AppTech',
-        tipo: 'remoto',
-        tecnologias: ['Android', 'Kotlin', 'Firebase'],
-        salario: 'R$ 5.000 – R$ 7.500',
-        local: 'Remoto'
-    },
-    {
-        id: 6,
-        titulo: 'Analista de Infraestrutura',
-        empresa: 'NetSystems',
-        tipo: 'presencial',
-        tecnologias: ['Linux', 'Redes', 'Servidores'],
-        salario: 'R$ 4.000 – R$ 6.000',
-        local: 'Campinas, SP'
     }
 ];
 
@@ -161,20 +125,19 @@ function filtrarVagas(termo) {
     });
 }
 
-function atualizarContagem(qtd, termo) {
-    const el = document.getElementById('resultado-contagem');
 
-    if (!termo.trim()) {
-        el.textContent = `${qtd} vagas disponíveis`;
-    } else {
-        el.textContent = `${qtd} vaga(s) encontrada(s) para "${termo}"`;
-    }
+function atualizarContagem(qtd, termo) {
+  const el = document.getElementById('resultado-contagem');
+  if (!termo.trim()) {
+    el.textContent = `${qtd} vagas disponíveis`;
+  } else {
+    el.textContent = `${qtd} vaga(s) encontrada(s) para "${termo}"`;
+  }
 }
 
 inputBusca.addEventListener('input', (evento) => {
     const termo = evento.target.value;
     const resultado = filtrarVagas(termo);
-
     renderizarVagas(resultado);
     atualizarContagem(resultado.length, termo);
 });
@@ -185,41 +148,29 @@ const THEME_KEY = 'devjobs-theme';
 const btnTheme = document.getElementById('theme-toggle');
 
 function aplicarTema(tema) {
-    document.body.classList.toggle('dark', tema === 'dark');
-
-    btnTheme.textContent = tema === 'dark' ? '☀️' : '🌙';
-
-    btnTheme.setAttribute(
-        'aria-label',
-        tema === 'dark'
-            ? 'Ativar tema claro'
-            : 'Ativar tema escuro'
-    );
+  document.body.classList.toggle('dark', tema === 'dark');
+  btnTheme.textContent = tema === 'dark' ? '☀️' : '🌙';
+  btnTheme.setAttribute('aria-label',
+    tema === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'
+  );
 }
 
 function carregarTemaSalvo() {
-    const salvo = localStorage.getItem(THEME_KEY);
-
-    if (salvo) {
-        aplicarTema(salvo);
-        return;
-    }
-
-    const prefereDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-    ).matches;
-
-    aplicarTema(prefereDark ? 'dark' : 'light');
+  const salvo = localStorage.getItem(THEME_KEY);
+  if (salvo) {
+    aplicarTema(salvo);
+    return;
+  }
+  const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  aplicarTema(prefereDark ? 'dark' : 'light');
 }
 
 function alternarTema() {
-    const isDark = document.body.classList.contains('dark');
-    const novoTema = isDark ? 'light' : 'dark';
-
-    aplicarTema(novoTema);
-    localStorage.setItem(THEME_KEY, novoTema);
+  const isDark = document.body.classList.contains('dark');
+  const novoTema = isDark ? 'light' : 'dark';
+  aplicarTema(novoTema);
+  localStorage.setItem(THEME_KEY, novoTema);
 }
 
 btnTheme.addEventListener('click', alternarTema);
-
 carregarTemaSalvo();
